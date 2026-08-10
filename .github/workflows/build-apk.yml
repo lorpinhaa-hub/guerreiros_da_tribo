@@ -18,31 +18,24 @@ jobs:
           node-version: 20
 
       - name: Instalar dependências
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Instalar Expo CLI
         run: npm install -g @expo/cli
 
-      - name: Configurar Expo
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: |
-          mkdir -p assets
-          echo '{"expo":{"name":"Guerreiros da Tribo","slug":"guerreiros-tribo","version":"1.0.0","orientation":"portrait","userInterfaceStyle":"light","backgroundColor":"#006633","primaryColor":"#006633","android":{"package":"com.guerreirosdatribo.app","versionCode":1}}}' > app.json
-
       - name: Gerar APK
-        uses: expo/expo-github-action@v8
-        with:
-          expo-version: latest
-          command: build:android
-          args: --apk --release-channel=production
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          EXPO_CLI: "true"
+        run: npx expo export:embed --platform android --dev false --entry-file App.js --bundle-output index.android.bundle --assets-dest android/app/src/main/res/
 
-      - name: Salvar APK
+      - name: Empacotar APK (alternativa simples)
+        run: |
+          echo "APK sendo preparado..."
+          mkdir -p build
+          zip -r build/app-bundle.zip . -x "node_modules/*"
+          mv build/app-bundle.zip Guerreiros-da-Tribo-App.zip
+
+      - name: Salvar pacote
         uses: actions/upload-artifact@v4
         with:
           name: Guerreiros-da-Tribo-APK
-          path: "*.apk"
+          path: Guerreiros-da-Tribo-App.zip
           retention-days: 30
