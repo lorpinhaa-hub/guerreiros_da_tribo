@@ -1,39 +1,22 @@
-name: Build APK Android
+name: Build Site
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Baixar código
-        uses: actions/checkout@v4
-
-      - name: Instalar Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Instalar dependências
-        run: npm install --legacy-peer-deps
-
-      - name: Instalar Expo CLI
-        run: npm install -g @expo/cli
-
-      - name: Gerar pacote de app
-        run: npx expo export --platform web --output-dir build
-
-      - name: Empacotar tudo
-        run: |
-          echo "✅ Empacotando..."
-          zip -r Guerreiros-da-Tribo-Codigo.zip . -x "node_modules/*"
-
-      - name: Salvar arquivo
+      - run: npm install --legacy-peer-deps
+      - run: npm run build
+      - name: Salvar site pronto
         uses: actions/upload-artifact@v4
         with:
-          name: App-Guerreiros-da-Tribo
-          path: Guerreiros-da-Tribo-Codigo.zip
+          name: Site-Guerreiros-da-Tribo
+          path: build
           retention-days: 30
