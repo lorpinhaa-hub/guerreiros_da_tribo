@@ -1,0 +1,48 @@
+name: Build APK Android
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Instalar Expo CLI
+        run: npm install -g @expo/cli
+
+      - name: Configurar Expo
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          mkdir -p assets
+          echo '{"expo":{"name":"Guerreiros da Tribo","slug":"guerreiros-tribo","version":"1.0.0","orientation":"portrait","userInterfaceStyle":"light","backgroundColor":"#006633","primaryColor":"#006633","android":{"package":"com.guerreirosdatribo.app","versionCode":1}}}' > app.json
+
+      - name: Gerar APK
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          command: build:android
+          args: --apk --release-channel=production
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EXPO_CLI: "true"
+
+      - name: Salvar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Guerreiros-da-Tribo-APK
+          path: "*.apk"
+          retention-days: 30
