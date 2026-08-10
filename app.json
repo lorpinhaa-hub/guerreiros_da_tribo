@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Guerreiros da Tribo",
+    "slug": "guerreiros-tribo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#006633",
+    "primaryColor": "#006633",
+    "android": {
+      "package": "com.guerreirosdatribo.app",
+      "versionCode": 1
+    }
+  }
+}
