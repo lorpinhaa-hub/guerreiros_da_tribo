@@ -23,19 +23,17 @@ jobs:
       - name: Instalar Expo CLI
         run: npm install -g @expo/cli
 
-      - name: Gerar APK
-        run: npx expo export:embed --platform android --dev false --entry-file App.js --bundle-output index.android.bundle --assets-dest android/app/src/main/res/
+      - name: Gerar pacote de app
+        run: npx expo export --platform web --output-dir build
 
-      - name: Empacotar APK (alternativa simples)
+      - name: Empacotar tudo
         run: |
-          echo "APK sendo preparado..."
-          mkdir -p build
-          zip -r build/app-bundle.zip . -x "node_modules/*"
-          mv build/app-bundle.zip Guerreiros-da-Tribo-App.zip
+          echo "✅ Empacotando..."
+          zip -r Guerreiros-da-Tribo-Codigo.zip . -x "node_modules/*"
 
-      - name: Salvar pacote
+      - name: Salvar arquivo
         uses: actions/upload-artifact@v4
         with:
-          name: Guerreiros-da-Tribo-APK
-          path: Guerreiros-da-Tribo-App.zip
+          name: App-Guerreiros-da-Tribo
+          path: Guerreiros-da-Tribo-Codigo.zip
           retention-days: 30
