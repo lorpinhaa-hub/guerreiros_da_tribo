@@ -2,21 +2,32 @@
   "name": "guerreiros-tribo-guarani",
   "version": "1.0.0",
   "description": "App Oficial - Guerreiros da Tribo / Guarani FC",
-  "main": "src/index.js",
+  "main": "App.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build:android": "expo build:android --apk"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "expo": "~51.0.0",
+    "expo-status-bar": "~1.12.0",
+    "react": "18.2.0",
+    "react-native": "0.74.0",
+    "react-native-web": "~0.19.0",
     "react-router-dom": "^6.20.0",
-    "react-scripts": "5.0.1"
+    "@expo/metro-runtime": "~3.2.0"
   },
-  "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+  "expo": {
+    "name": "Guerreiros da Tribo",
+    "slug": "guerreiros-tribo",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.guerreirosdatribo.app"
+    }
   }
 }
